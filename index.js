@@ -35,8 +35,8 @@ let map_layout = [
 
 let numbOfColums = map_layout[0].length;
 
-let row = 2;
-let column = 2;
+let row = 1;
+let column = 1;
 
 /*
 let gameDivDimentions = gameDiv.getBoundingClientRect();
@@ -80,6 +80,7 @@ map_layout.forEach(function(row, rowIndex){
     
     let keydown;
    
+    
     document.addEventListener("keydown", event => {
         event.preventDefault();
         switch (event.key.toLocaleLowerCase()) {
@@ -103,36 +104,39 @@ map_layout.forEach(function(row, rowIndex){
 
     setInterval(movePacMan, 500)
 
-
-function movePacMan(){
-    let index = (row) * numbOfColums + (column);
+    
+    function movePacMan(){
+        let index = (row) * numbOfColums + (column);
+        let nextRow = row;
+        let nextColumn = column;
     switch (keydown.toLocaleLowerCase()) {
         case "w":
-            row=row-1;
+            nextRow=row-1;
             break;
         case "a":
-            column=column-1;
+            nextColumn=column-1;
             break;
         case "s":
-            row++;
+            nextRow = row+ 1;
             break;
         case "d":
-            column++; 
+            nextColumn = column+ 1; 
             break;
         default:
             break;
         }    
-    
-        let previousPressedKey = keydown;
-        console.log(previousPressedKey);
         
-            
-            if (gameDiv.childNodes[index].classList[1]==="path") {
+            if (map_layout[nextRow][nextColumn] === 0) {
                 let previousIndex = index;
+                row = nextRow;
+                column= nextColumn;
                 index = (row) * numbOfColums + (column);
                 UpdatePlayerPosition(index, previousIndex);
                 UpdatePreviousPosition(previousIndex);   
-            }else{}
+            }
+            else{
+                console.log("Gå inte in i väggen!");
+            }
         
 }
 
