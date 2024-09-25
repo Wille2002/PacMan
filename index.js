@@ -38,10 +38,6 @@ let numbOfColums = map_layout[0].length;
 let row = 2;
 let column = 2;
 
-
-
-
-
 /*
 let gameDivDimentions = gameDiv.getBoundingClientRect();
 
@@ -72,7 +68,7 @@ map_layout.forEach(function(row, rowIndex){
         playerDiv = gameDiv.childNodes[position];
         playerDiv.style.backgroundColor = "yellow";
         
-}
+    }
 
     function UpdatePreviousPosition(position) {
         playerDiv = gameDiv.childNodes[position];
@@ -81,8 +77,30 @@ map_layout.forEach(function(row, rowIndex){
     
     }
 
-
+    
     let keydown;
+   
+    document.addEventListener("keydown", event => {
+        event.preventDefault();
+        switch (event.key.toLocaleLowerCase()) {
+            case "w":
+                keydown = "w"
+                break;
+            case "a":
+                keydown = "a"
+                break;
+            case "s":
+                keydown = "s"
+                break;
+            case "d":
+                keydown = "d"
+                break;
+            default:
+                break;
+            }    
+            console.log(keydown);
+        })
+
     setInterval(movePacMan, 500)
 
 
@@ -104,38 +122,21 @@ function movePacMan(){
         default:
             break;
         }    
-
-        let previousIndex = index;
-        index = (row) * numbOfColums + (column);
-        UpdatePlayerPosition(index, previousIndex)
-        UpdatePreviousPosition(previousIndex)
-                
     
-    
+        let previousPressedKey = keydown;
+        console.log(previousPressedKey);
+        
+            
+            if (gameDiv.childNodes[index].classList[1]==="path") {
+                let previousIndex = index;
+                index = (row) * numbOfColums + (column);
+                UpdatePlayerPosition(index, previousIndex);
+                UpdatePreviousPosition(previousIndex);   
+            }else{}
+        
 }
 
-document.addEventListener("keydown", event => {
-    event.preventDefault();
-    switch (event.key.toLocaleLowerCase()) {
-        case "w":
-            keydown = "w"
-            break;
-        case "a":
-            keydown = "a"
-            break;
-        case "s":
-            keydown = "s"
-            break;
-        case "d":
-            keydown = "d"
-            break;
-        default:
-            break;
-        }    
-    })
-    console.log(keydown);
-
-    // Något knasigt med dessa if satser FIXA!!
+   
     
          
         
