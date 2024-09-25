@@ -1,0 +1,36 @@
+body{
+    background-color: black;
+    color: white;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+}
+
+#container{
+    background-color: darkblue;
+    height: 80vh;
+    width: 90vw;
+    margin-bottom: 40px;
+
+    display: grid;
+    grid-template-columns: repeat(22, 1fr);
+    grid-template-rows:repeat(22, 1fr);
+}
+
+.path{
+    background-color: black;
+}
+.edge{
+    background-color: cyan;
+}
+
+#container>.player{
+    width: 30px;
+    height: 30px;
+    background-color: yellow;
+    
+    border-radius: 50%;
+    grid-row-start: 2;
+    grid-column-start: 2;
+}
