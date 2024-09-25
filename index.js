@@ -107,6 +107,7 @@ function movePacMan(){
 
         let previousIndex = index;
         index = (row) * numbOfColums + (column);
+        console.log(map_layout);
         UpdatePlayerPosition(index, previousIndex)
         UpdatePreviousPosition(previousIndex)
                 
