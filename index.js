@@ -82,44 +82,60 @@ map_layout.forEach(function(row, rowIndex){
     }
 
 
-
-setInterval(movePacMan, 1000)
+    let keydown;
+    setInterval(movePacMan, 500)
 
 
 function movePacMan(){
-    document.addEventListener("keydown", event => {
-        event.preventDefault();
-        let index = (row) * numbOfColums + (column);
-       
-        switch (event.key.toLocaleLowerCase()) {
-            case "w":
-                row=row-1;
-                break;
-            case "a":
-                column=column-1;
-                break;
-            case "s":
-                row++;
-                break;
-            case "d":
-                column++; 
-                break;
-            default:
-                break;
-            }
-    
-    
-            // Något knasigt med dessa if satser FIXA!!
-            
-                 
-            let previousIndex = index;
-            index = (row) * numbOfColums + (column);
-            UpdatePreviousPosition(previousIndex)
-            UpdatePlayerPosition(index, previousIndex)
-                    
+    let index = (row) * numbOfColums + (column);
+    switch (keydown.toLocaleLowerCase()) {
+        case "w":
+            row=row-1;
+            break;
+        case "a":
+            column=column-1;
+            break;
+        case "s":
+            row++;
+            break;
+        case "d":
+            column++; 
+            break;
+        default:
+            break;
+        }    
+
+        let previousIndex = index;
+        index = (row) * numbOfColums + (column);
+        UpdatePlayerPosition(index, previousIndex)
+        UpdatePreviousPosition(previousIndex)
                 
-            
     
-        })
     
 }
+
+document.addEventListener("keydown", event => {
+    event.preventDefault();
+    switch (event.key.toLocaleLowerCase()) {
+        case "w":
+            keydown = "w"
+            break;
+        case "a":
+            keydown = "a"
+            break;
+        case "s":
+            keydown = "s"
+            break;
+        case "d":
+            keydown = "d"
+            break;
+        default:
+            break;
+        }    
+    })
+    console.log(keydown);
+
+    // Något knasigt med dessa if satser FIXA!!
+    
+         
+        
