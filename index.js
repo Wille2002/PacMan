@@ -45,15 +45,20 @@ let tileWidth = (gameDivDimentions.width/map_layout[0].length);
 let tileHeight = (gameDivDimentions.height/map_layout.length);
 */
 let counter = 0;
-map_layout.forEach(function(row, rowIndex){
-    row.forEach(function(cell, cellIndex) {
+map_layout.forEach(function (row, rowIndex) {
+    row.forEach(function (cell, columnIndex) {
+        console.log("row: " + rowIndex + " column: " + columnIndex)
+
         let div = document.createElement("div");
-        div.classList.add(counter);
         if (cell == 0) {
             div.classList.add("path");
-        }else if(cell == 1){
+        } else if (cell == 1) {
             div.classList.add("edge");
         }
+        div.style.gridColumn = columnIndex + 1;
+        div.style.gridRow = rowIndex + 1;
+        div.dataset.gridColumn = columnIndex + 1;
+        div.dataset.gridRow = rowIndex + 1;
         counter++;
         gameDiv.appendChild(div)
     });
@@ -62,94 +67,84 @@ map_layout.forEach(function(row, rowIndex){
 
 
 
-    
-    let playerDiv;
-    function UpdatePlayerPosition(position, previousPosition) {
-        playerDiv = gameDiv.childNodes[position];
-        playerDiv.style.backgroundColor = "yellow";
-        
-    }
 
-    function UpdatePreviousPosition(position) {
-        playerDiv = gameDiv.childNodes[position];
-        playerDiv.style.backgroundColor = "black";
-        
-    
-    }
+let playerDiv;
+function UpdatePlayerPosition(position, previousPosition) {
+    playerDiv = gameDiv.childNodes[position];
+    playerDiv.style.backgroundColor = "yellow";
 
-    
-    let keydown;
-   
-    
-    document.addEventListener("keydown", event => {
-        event.preventDefault();
-        switch (event.key.toLocaleLowerCase()) {
-            case "w":
-                keydown = "w"
-                break;
-            case "a":
-                keydown = "a"
-                break;
-            case "s":
-                keydown = "s"
-                break;
-            case "d":
-                keydown = "d"
-                break;
-            default:
-                break;
-            }    
-            console.log(keydown);
-        })
+}
 
-    setInterval(movePacMan, 500)
+function UpdatePreviousPosition(position) {
+    playerDiv = gameDiv.childNodes[position];
+    playerDiv.style.backgroundColor = "black";
 
-    
-    function movePacMan(){
-        let index = (row) * numbOfColums + (column);
-        let nextRow = row;
-        let nextColumn = column;
-    switch (keydown.toLocaleLowerCase()) {
+
+}
+
+
+let keydown;
+
+
+document.addEventListener("keydown", event => {
+    event.preventDefault();
+    switch (event.key.toLocaleLowerCase()) {
         case "w":
-            nextRow=row-1;
+            keydown = "w"
             break;
         case "a":
-            nextColumn=column-1;
+            keydown = "a"
             break;
         case "s":
-            nextRow = row+ 1;
+            keydown = "s"
             break;
         case "d":
-            nextColumn = column+ 1; 
+            keydown = "d"
             break;
         default:
             break;
-        }    
+    }
+    console.log(keydown);
+})
 
+setInterval(movePacMan, 1000)
+
+
+function movePacMan() {
+    let index = (row) * numbOfColums + (column);
+    let nextRow = row;
+    let nextColumn = column;
+    switch (keydown.toLocaleLowerCase()) {
+        case "w":
+            nextRow = row - 1;
+            break;
+        case "a":
+            nextColumn = column - 1;
+            break;
+        case "s":
+            nextRow = row + 1;
+            break;
+        case "d":
+            nextColumn = column + 1;
+            break;
+        default:
+            break;
+    }
+
+    if (map_layout[nextRow][nextColumn] === 0) {
         let previousIndex = index;
+        row = nextRow;
+        column = nextColumn;
         index = (row) * numbOfColums + (column);
-        console.log(map_layout);
-        UpdatePlayerPosition(index, previousIndex)
-        UpdatePreviousPosition(previousIndex)
-                
-    
-    
-        
-            if (map_layout[nextRow][nextColumn] === 0) {
-                let previousIndex = index;
-                row = nextRow;
-                column= nextColumn;
-                index = (row) * numbOfColums + (column);
-                UpdatePlayerPosition(index, previousIndex);
-                UpdatePreviousPosition(previousIndex);   
-            }
-            else{
-                console.log("Gå inte in i väggen!");
-            }
-        
+        UpdatePlayerPosition(index, previousIndex);
+        UpdatePreviousPosition(previousIndex);
+    }
+    else {
+        console.log("Gå inte in i väggen!");
+    }
+
 }
 
-   
-    
-         
-        
+
+
+
