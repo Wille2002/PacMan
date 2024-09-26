@@ -1,72 +1,40 @@
-let gameDiv = document.createElement("div");
-let body = document.querySelector("body");
-body.appendChild(gameDiv);
 
-
-gameDiv.setAttribute("id", "container");
-
-
-
-
-let map_layout = [
-    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-    [1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1],
-    [1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 1],
-    [1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 0, 1],
-    [1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 1],
-    [1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 1],
-    [1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1],
-    [1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 0, 1],
-    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1],
-    [1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1],
-    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-    [1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1],
-    [1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-    [1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 0, 1],
-    [1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 1],
-    [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 1],
-    [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1],
-    [1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1],
-    [1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
-]
-
-let numbOfColums = map_layout[0].length;
-
+let numbOfColums;
 let row = 1;
 let column = 1;
+let map;
+let gameDiv;
 
-/*
-let gameDivDimentions = gameDiv.getBoundingClientRect();
 
-let tileWidth = (gameDivDimentions.width/map_layout[0].length);
-let tileHeight = (gameDivDimentions.height/map_layout.length);
-*/
 let counter = 0;
-map_layout.forEach(function (row, rowIndex) {
-    row.forEach(function (cell, columnIndex) {
-        console.log("row: " + rowIndex + " column: " + columnIndex)
+function createMap(map_layout) {
 
-        let div = document.createElement("div");
-        if (cell == 0) {
-            div.classList.add("path");
-        } else if (cell == 1) {
-            div.classList.add("edge");
-        }
-        div.style.gridColumn = columnIndex + 1;
-        div.style.gridRow = rowIndex + 1;
-        div.dataset.gridColumn = columnIndex + 1;
-        div.dataset.gridRow = rowIndex + 1;
-        counter++;
-        gameDiv.appendChild(div)
+    map = map_layout;
+    body.innerHTML = "";
+    numbOfColums = map_layout[0].length;
+    gameDiv = document.createElement("div");
+    body.appendChild(gameDiv);
+    gameDiv.setAttribute("id", "container");
+
+    map_layout.forEach(function (row, rowIndex) {
+        row.forEach(function (cell, columnIndex) {
+
+            let div = document.createElement("div");
+            if (cell == 0) {
+                div.classList.add("path");
+            } else if (cell == 1) {
+                div.classList.add("edge");
+            }
+            div.style.gridColumn = columnIndex + 1;
+            div.style.gridRow = rowIndex + 1;
+            div.dataset.gridColumn = columnIndex + 1;
+            div.dataset.gridRow = rowIndex + 1;
+            counter++;
+            gameDiv.appendChild(div)
+        });
     });
-});
-
-
-
-
+}
+    
 
 let playerDiv;
 function UpdatePlayerPosition(position, previousPosition) {
@@ -82,9 +50,7 @@ function UpdatePreviousPosition(position) {
 
 }
 
-
 let keydown;
-
 
 document.addEventListener("keydown", event => {
     event.preventDefault();
@@ -107,7 +73,7 @@ document.addEventListener("keydown", event => {
     console.log(keydown);
 })
 
-setInterval(movePacMan, 1000)
+setInterval(movePacMan, 100)
 
 
 function movePacMan() {
@@ -131,7 +97,7 @@ function movePacMan() {
             break;
     }
 
-    if (map_layout[nextRow][nextColumn] === 0) {
+    if (map[nextRow][nextColumn] === 0) {
         let previousIndex = index;
         row = nextRow;
         column = nextColumn;
