@@ -4,9 +4,11 @@ let row = 1;
 let column = 1;
 let map;
 let gameDiv;
+let playerDiv = document.createElement("div");
+let SecondGrid = document.createElement("div");
 
 
-let counter = 0;
+
 function createMap(map_layout) {
 
     map = map_layout;
@@ -15,6 +17,9 @@ function createMap(map_layout) {
     gameDiv = document.createElement("div");
     body.appendChild(gameDiv);
     gameDiv.setAttribute("id", "container");
+
+    SecondGrid.setAttribute("id", "SecondLayer");
+    body.appendChild(SecondGrid);
 
     map_layout.forEach(function (row, rowIndex) {
         row.forEach(function (cell, columnIndex) {
@@ -29,25 +34,23 @@ function createMap(map_layout) {
             div.style.gridRow = rowIndex + 1;
             div.dataset.gridColumn = columnIndex + 1;
             div.dataset.gridRow = rowIndex + 1;
-            counter++;
+           
             gameDiv.appendChild(div)
         });
     });
-}
-    
 
-let playerDiv;
-function UpdatePlayerPosition(position, previousPosition) {
-    playerDiv = gameDiv.childNodes[position];
-    playerDiv.style.backgroundColor = "yellow";
-
+    playerDiv.classList.add("player");
+    playerDiv.style.gridRow = row + 1;
+    playerDiv.style.gridColumn = column + 1;
+    SecondGrid.appendChild(playerDiv);
+   
 }
 
-function UpdatePreviousPosition(position) {
-    playerDiv = gameDiv.childNodes[position];
-    playerDiv.style.backgroundColor = "black";
 
-
+function UpdatePlayerPosition(row, column) {
+    playerDiv.style.gridRow = row + 1;
+    playerDiv.style.gridColumn = column + 1;
+    playerDiv.style.backgroundColor="yellow";
 }
 
 let keydown;
@@ -77,7 +80,6 @@ setInterval(movePacMan, 100)
 
 
 function movePacMan() {
-    let index = (row) * numbOfColums + (column);
     let nextRow = row;
     let nextColumn = column;
     switch (keydown.toLocaleLowerCase()) {
@@ -98,12 +100,9 @@ function movePacMan() {
     }
 
     if (map[nextRow][nextColumn] === 0) {
-        let previousIndex = index;
         row = nextRow;
         column = nextColumn;
-        index = (row) * numbOfColums + (column);
-        UpdatePlayerPosition(index, previousIndex);
-        UpdatePreviousPosition(previousIndex);
+        UpdatePlayerPosition(row, column);
     }
     else {
         console.log("Gå inte in i väggen!");
